@@ -1,0 +1,56 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Laravel
+*.log
+.env
+.env.*
+!.env.example
+.env.backup
+.env.production
+.phpactor.json
+.phpunit.result.cache
+/.codex
+/.cursor/
+/.idea
+/.nova
+/.phpunit.cache
+/.vscode
+/.zed
+/auth.json
+/node_modules
+/public/fonts-manifest.dev.json
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/bootstrap/cache/*.php
+/database/*.sqlite
+/vendor
+_ide_helper.php
+Homestead.json
+Homestead.yaml
+
+# Dependencies
+node_modules/
+
+# Vercel
+.vercel/
+
+# Storage framework
+storage/framework/views/*
+!storage/framework/views/.gitignore
+
+# Python tooling
+__pycache__/
+*.pyc
+.venv/
+
+# Editors / logs
+*.bak
+*.tmp
+*.err
+postgres
+
+.vercel
