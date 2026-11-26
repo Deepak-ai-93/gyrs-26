@@ -39,15 +39,14 @@ RUN mkdir -p \
 
 FROM base AS runtime
 
-COPY --from=dependencies --chown=www-data:www-data /app /app
-COPY --from=assets --chown=www-data:www-data /app/public/build /app/public/build
-COPY --chown=www-data:www-data Caddyfile /etc/frankenphp/Caddyfile
+COPY --from=dependencies /app /app
+COPY --from=assets /app/public/build /app/public/build
+COPY Caddyfile /etc/frankenphp/Caddyfile
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 
 RUN chmod +x /usr/local/bin/docker-entrypoint \
-    && setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp \
-    && mkdir -p /config/caddy /data/caddy \
-    && chown -R www-data:www-data /app/storage /app/bootstrap/cache /config/caddy /data/caddy
+    && chmod -R 775 /app/storage /app/bootstrap/cache \
+    && mkdir -p /config/caddy /data/caddy
 
 ENV PORT=80 \
     APP_NAME="GYRS Portal" \
@@ -58,8 +57,9 @@ ENV PORT=80 \
     SESSION_DRIVER=cookie \
     QUEUE_CONNECTION=sync \
     DB_CONNECTION=sqlite \
-    DB_DATABASE=/tmp/gyrs.sqlite
+    DB_DATABASE=/tmp/gyrs.sqlite \
+    VIEW_COMPILED_PATH=/tmp/framework/views
 
-USER www-data
+EXPOSE 80
 
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint"]
+CMD ["/usr/local/bin/docker-entrypoint"]

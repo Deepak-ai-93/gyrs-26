@@ -1,8 +1,13 @@
+{
+    http_port {$PORT:80}
+    admin off
+}
+
 :{$PORT:80} {
     root * /app/public
     encode zstd gzip
 
     php_server {
-        try_files {path} index.php
+        resolve_root_symlinks
     }
 }

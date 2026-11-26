@@ -1,7 +1,11 @@
 #!/bin/sh
 set -eu
 
-: "${APP_KEY:?APP_KEY must be set in the Vercel environment}"
+# Auto-generate APP_KEY if not provided via environment
+if [ -z "${APP_KEY:-}" ]; then
+    export APP_KEY="base64:$(head -c 32 /dev/urandom | base64)"
+    echo "WARNING: APP_KEY not set — generated a random key. Set APP_KEY in Vercel env vars for session persistence." >&2
+fi
 
 if [ "${VERCEL_ENV:-preview}" = "production" ]; then
     if [ "${DB_CONNECTION:-}" != "pgsql" ]; then
